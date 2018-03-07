@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.object.MappingSqlQuery;
 
 @Configuration
 public class ClubDBConfiguration {
@@ -16,7 +17,7 @@ public class ClubDBConfiguration {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource.setUrl("jdbc:mysql://localhost:3306/club");
+		dataSource.setUrl("jdbc:mysql://localhost:3306/club294");
 		dataSource.setUsername("root");
 		dataSource.setPassword("");
 		
@@ -39,8 +40,14 @@ public class ClubDBConfiguration {
 		MemberDaoJdbcImpl memberDao = new MemberDaoJdbcImpl();
 		
 		memberDao.setJdbcTemplate(jdbcTemplate());
-		
+		memberDao.setMemberByIdQuery(memberByIdQuery());
 		return memberDao;
+	}
+	
+	@Bean
+	public MappingSqlQuery<Member> memberByIdQuery() {
+		MemberByIdQuery query = new MemberByIdQuery(dataSource());
+		return query;
 	}
 	
 }

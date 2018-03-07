@@ -2,6 +2,7 @@ package com.kemery;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -28,6 +29,20 @@ public class Main {
 			System.out.println(m.toString());
 		}
 		
+		
+		m = memberDao.findByQuery("A043");
+		if(m == null) {
+			System.out.println("A043 not found");
+		} else {
+			System.out.println(m.toString());
+		}
+		
+		
+		List<Member> members = memberDao.findByStatus("T");
+		System.out.println("Number of inactive members = " + members.size());
+		for(Member mem : members) {
+			System.out.println(mem.toString());
+		}
 		
 		connection.close();
 

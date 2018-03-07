@@ -8,17 +8,32 @@ import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.object.MappingSqlQuery;
 
 public class MemberDaoJdbcImpl implements MemberDao {
 
 	private JdbcTemplate jdbcTemplate;
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+	private MappingSqlQuery<Member> memberByIdQuery;
 	
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		
 		this.jdbcTemplate = jdbcTemplate;
 		namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
 	}
+	
+	
+	public void setMemberByIdQuery(MappingSqlQuery<Member> memberByIdQuery) {
+	
+		this.memberByIdQuery = memberByIdQuery;
+	}
+	
+	
+	public Member findByQuery(String memid) {
+		
+		return memberByIdQuery.findObject(memid);
+	}
+	
 	
 	public Member find(String memid) {
 		
@@ -40,7 +55,7 @@ public class MemberDaoJdbcImpl implements MemberDao {
 	
 	public List<Member> findByStatus(String stat) {
 		
-		String sql = "SELECT memid, lastname, firstname, middlename, status, memdt, password FROM tblmember WHERE status = :status";
+		String sql = "SELECT memid, lastname, firstname, middlename, status, memdt, password FROM tblmembers WHERE status = :status";
 		return namedParameterJdbcTemplate.query(sql, Collections.singletonMap("status", stat),
 				new RowMapper<Member>() {
 			public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
