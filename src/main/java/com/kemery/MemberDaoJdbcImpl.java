@@ -6,9 +6,12 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.object.MappingSqlQuery;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 public class MemberDaoJdbcImpl implements MemberDao {
 
@@ -70,6 +73,20 @@ public class MemberDaoJdbcImpl implements MemberDao {
 				return m;
 			}
 		});
+	}
+	
+	
+	public void insert(Member member) {
+		PreparedStatementCreatorFactory psCreatorFactory = new PreparedStatementCreatorFactory(
+				"insert into account(memid, lastname, firstname, middlename, status, memdt, password) values(?, ?, ?, ?, ?, ?. ?");
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+
+		int count = jdbcTemplate.update(
+				psCreatorFactory.newPreparedStatementCreator(new Object[] {
+						member.getMemid(), member.getLastnm(), member.getFirstnm(), member.getMiddlenm(), member.getStatus(), member.getMemdt(), member.getPassword() }), keyHolder);
+		if (count != 1)
+			throw new InsertFailedException("Cannot insert account");
+//		member.setMemid((String) keyHolder.getKey().longValue());
 	}
 	
 }
