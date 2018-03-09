@@ -2,6 +2,7 @@ package com.kemery;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.Collections;
 import java.util.List;
 
@@ -78,15 +79,18 @@ public class MemberDaoJdbcImpl implements MemberDao {
 	
 	public void insert(Member member) {
 		PreparedStatementCreatorFactory psCreatorFactory = new PreparedStatementCreatorFactory(
-				"insert into account(memid, lastname, firstname, middlename, status, memdt, password) values(?, ?, ?, ?, ?, ?. ?");
+				"insert into tblmembers(memid, lastname, firstname, middlename, status, memdt, password) values(?, ?, ?, ?, ?, ?, ?)",
+				new int[] {Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.DATE, Types.INTEGER });		
+		
+		
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 
 		int count = jdbcTemplate.update(
 				psCreatorFactory.newPreparedStatementCreator(new Object[] {
-						member.getMemid(), member.getLastnm(), member.getFirstnm(), member.getMiddlenm(), member.getStatus(), member.getMemdt(), member.getPassword() }), keyHolder);
+						member.getMemid(), member.getLastnm(), member.getFirstnm(), member.getMiddlenm(), member.getStatus(), member.getMemdt(), member.getPassword() }));
 		if (count != 1)
 			throw new InsertFailedException("Cannot insert account");
-//		member.setMemid((String) keyHolder.getKey().longValue());
+//		member.setId(keyHolder.getKey().longValue());
 	}
 	
 }

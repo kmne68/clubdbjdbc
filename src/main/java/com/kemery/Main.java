@@ -44,6 +44,24 @@ public class Main {
 			System.out.println(mem.toString());
 		}
 		
+		Member insertMember = new Member();
+		
+		insertMember.setMemid("S953");
+		insertMember.setFirstnm("Adam");
+		insertMember.setLastnm("Smith");
+		insertMember.setMiddlenm("Joseph");
+		insertMember.setStatus("C");
+		insertMember.setMemdt("1776-09-03");
+		insertMember.setPassword(0301);
+		
+		
+		memberDao.insert(insertMember);
+		
+		insertMember = memberDao.find(insertMember.getMemid());
+		
+		System.out.println(insertMember.getMemid());
+		
+		
 		connection.close();
 
 		//System.out.println("Club connection " + connection.isClosed());
