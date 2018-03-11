@@ -8,4 +8,6 @@ public interface MemberDao {
 	public Member findByQuery(String memid);
 	public List<Member> findByStatus(String status);
 	public void insert(Member member);
+	public void delete(String memid);
+	public void update(Member member);
 }

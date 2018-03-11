@@ -93,4 +93,29 @@ public class MemberDaoJdbcImpl implements MemberDao {
 //		member.setId(keyHolder.getKey().longValue());
 	}
 	
+	 	
+
+	public void delete(String memberId) {
+		int count = jdbcTemplate.update("DELETE FROM tblmembers WHERE memid = ? LIMIT 1", memberId);
+		if (count != 1)
+			throw new DeleteFailedException("Cannot delete member");
+	}
+	
+	
+	public void update(Member member) {
+		int count = jdbcTemplate.update("update tblmembers set memid = ?, lastName = ?, firstName = ?, middleName = ?, status = ?, memdt = ?, password = ? where memid = ?",
+						member.getMemid(), member.getLastnm(), member.getFirstnm(), member.getMiddlenm(), member.getStatus(), member.getMemdt(), member.getPassword(), member.getMemid());
+		if (count != 1)
+			throw new UpdateFailedException("Cannot update account");
+	}
+
+
+
+//	public void update(Member member) {
+//		int count = jdbcTemplate.update("update tblmembers set (memid, lastname, firstname, middlename, status, memdt, password) = (?,?,?,?,?,?,?) where memid = ?",
+//						member.getMemid(), member.getLastnm(), member.getFirstnm(), member.getMiddlenm(), member.getStatus(), member.getMemdt(), member.getPassword(), member.getMemid());
+//		if (count != 1)
+//			throw new UpdateFailedException("Cannot update account");
+//	}	
+	
 }

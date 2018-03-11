@@ -30,6 +30,19 @@ public class Main {
 		}
 		
 		
+		// Demonstrate update()
+		Member memberToUpdate = memberDao.find("U014");
+		if(memberToUpdate == null) {
+			System.out.println("U014 not found");
+		} else {
+			System.out.println(memberToUpdate.toString());
+		}
+		
+		memberToUpdate.setFirstnm("Esmerelda");
+		memberDao.update(memberToUpdate);
+		
+		
+		// Demonstrate findByQuery
 		m = memberDao.findByQuery("A043");
 		if(m == null) {
 			System.out.println("A043 not found");
@@ -38,12 +51,14 @@ public class Main {
 		}
 		
 		
+		// Demonstrate findByStatus()
 		List<Member> members = memberDao.findByStatus("T");
 		System.out.println("Number of inactive members = " + members.size());
 		for(Member mem : members) {
 			System.out.println(mem.toString());
 		}
 		
+		// Create member to demonstrate insert()
 		Member insertMember = new Member();
 		
 		insertMember.setMemid("S953");
@@ -53,15 +68,16 @@ public class Main {
 		insertMember.setStatus("C");
 		insertMember.setMemdt("1776-09-03");
 		insertMember.setPassword(0301);
-		
-		
-		memberDao.insert(insertMember);
-		
+
+		// Uncomment the following line to insert Adam Smith
+	//	memberDao.insert(insertMember);
 		insertMember = memberDao.find(insertMember.getMemid());
 		
 		System.out.println(insertMember.getMemid());
 		
-		
+		// Demonstrate delete()
+		String deleteMember = "S953";
+		memberDao.delete(deleteMember);		
 		connection.close();
 
 		//System.out.println("Club connection " + connection.isClosed());

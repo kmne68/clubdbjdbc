@@ -9,6 +9,8 @@ public class Member {
     
     private String memid, lastnm, firstnm, middlenm, status, memdt;
     private long password, passattempt;
+    private double ytd_total;
+    private String ytd_total_dt;
     
     public Member() {
         
@@ -18,6 +20,8 @@ public class Member {
         this.middlenm = "";
         this.status = "";
         this.memdt = "";
+        this.ytd_total = 0.0;
+        this.ytd_total_dt = "";
         this.password = 0;
         this.passattempt = 1;
         
@@ -103,5 +107,25 @@ public class Member {
     public String toString() {
     	return this.memid + ", " + this.lastnm + ", " + this.firstnm + ", " + this.middlenm + ", " + this.status + ", " + this.memdt;
     }
+
+
+	public double getYtd_total() {
+		return ytd_total;
+	}
+
+
+	public void setYtd_total(double ytd_total) {
+		this.ytd_total = ytd_total;
+	}
+
+
+	public String getYtd_total_dt() {
+		return ytd_total_dt;
+	}
+
+
+	public void setYtd_total_dt(String ytd_total_dt) {
+		this.ytd_total_dt = ytd_total_dt;
+	}
     
 }
